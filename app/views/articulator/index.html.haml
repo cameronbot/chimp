@@ -1,0 +1,8 @@
+= link_to "Run an article through this monkey business", new_articulator_path, class: "btn btn-info"
+
+%hr
+
+%ul
+  - @articles.each do |a|
+    %li
+      = link_to a.headline, articulator_path(a)

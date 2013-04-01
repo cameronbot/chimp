@@ -1,0 +1,5 @@
+= form_for @article, url: articulator_index_url do |f|
+  = f.label :url, "URL"
+  = f.text_field :url, placeholder: "http://", class: "span6"
+  %label
+  = f.submit "Do It", class: "btn"
