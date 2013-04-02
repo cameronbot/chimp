@@ -1,3 +1,42 @@
 // Place all the styles related to the articulator controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.hero-unit {
+  background: image_url('chimp_face.jpg') no-repeat bottom right;
+  border: 1px solid #a5a5a5;
+}
+
+#article-iframe {
+  width: 720px;
+  position: absolute;
+  top: 100px;
+  height: 800px;
+  right: 0;
+  border: 0;
+}
+
+.article-form {
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  z-index: 20;
+  position: absolute;
+  left: 0;
+}
+
+.author {
+  color: #F00;
+}
+
+.pub {
+  color: #F00;
+}
+
+.tag {
+  font-weight: bold;
+  color: #C00;
+}
+
+.mention {
+  color: #F00;
+}

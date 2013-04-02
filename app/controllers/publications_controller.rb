@@ -35,12 +35,4 @@ class PublicationsController < ApplicationController
     end
   end
 
-  def destroy
-    @publication = Publication.find(params[:id])
-
-    @publication.delete
-    flash[:notice] = "#{@publication.formatted_name} was deleted."
-    redirect_to publications_path
-  end
-
 end

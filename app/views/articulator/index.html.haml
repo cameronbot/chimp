@@ -1,30 +1,36 @@
 .container
-  .row
-    = link_to "Run an article through this monkey business", new_articulator_path, class: "btn btn-primary"
+  .hero-unit
+    %h1 Chimp.
+    %p.lead Let the experts do your monkey work.
+    %p
+      = link_to "Submit a url", new_articulator_path, class: "btn btn-primary btn-large"
 
-    %hr
+  %hr
 
-    %table.table.table-hover
-      %thead
-        %tr
-          %th #
-          %th Headline
-          %th Publication
-          %th Created on
-          %th Actions
-      %tbody
-        - @articles.each do |a|
+  - if @articles.length > 0
+    = form_tag summarize_articulator_path, :method => :post do
+      = submit_tag "Build summary from selected", class: "btn"
+      %table#articles.table.table-hover
+        %thead
           %tr
-            %td
-              = a.id
-            %td
-              = link_to a.headline, articulator_path(a)
-            %td
-              = a.publication.formatted_name
-            %td
-              = a.created_at
-            %td
-              = link_to raw('<i class="icon-pencil"></i>'), edit_articulator_path(a)
-              = link_to raw('<i class="icon-eye-open"></i>'), a.url
-              = link_to raw('<i class="icon-trash"></i>'), articulator_path(a),
-                  method: :delete, confirm: "Are you sure you want to delete this?"
+            %th
+            %th Headline
+            %th Publication
+            %th Created on
+            %th Actions
+        %tbody
+          - @articles.each do |a|
+            %tr
+              %td
+                = check_box_tag "article_ids[]", a.id
+              %td
+                = link_to a.headline, articulator_path(a)
+              %td
+                = a.publication.formatted_name
+              %td
+                = a.created_at
+              %td
+                = link_to raw('<i class="icon-pencil"></i>'), edit_articulator_path(a)
+                = link_to raw('<i class="icon-eye-open"></i>'), a.url
+                = link_to raw('<i class="icon-trash"></i>'), articulator_path(a),
+                    method: :delete, confirm: "Are you sure you want to delete this?"

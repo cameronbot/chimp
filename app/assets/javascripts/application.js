@@ -11,11 +11,23 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
 
 $(document).ready(function () {
+  $('#articles').on("click", "tr", function(e) {
+    $(this).find('[type=checkbox]').prop("checked", "true");
+  });
+
+  $('#open-iframe').on('click', function(e) {
+    e.preventDefault();
+    console.log('test');
+    $('body').append('<iframe id="article-iframe" src="' + $(this).data('url') + '"></iframe>');
+    $('#article-form').toggleClass('article-form').draggable();
+  });
+
   $("[data-toggle=popover]").popover();
   $('#article-tag-list').typeahead({
     source: function (query, process) {

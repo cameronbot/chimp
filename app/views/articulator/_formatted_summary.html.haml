@@ -1,0 +1,17 @@
+- article.tag_list.each do |t|
+  .tag= t.upcase
+.headline
+  = link_to article.headline, article.url
+.brief
+  %span.date
+    = article.date
+    \--
+  %span.brief
+    = article.brief
+.meta
+  %span.mention
+    = article.mentions.upcase if article.mentions
+  %span.pub
+    = article.publication.formatted_name.upcase if article.publication.formatted_name.present?
+  %span.author
+    = article.author.downcase.split(" ").join(".")

@@ -34,7 +34,7 @@ class ArticulatorController < ApplicationController
 
     if @article.update_attributes(params[:article])
       flash[:notice] = "The monkeys saved your changes..."
-      redirect_to articulator_index_path
+      redirect_to articulator_path(@article)
     else
       flash[:alert] = "The monkeys had some problems..."
       render :show
@@ -47,5 +47,9 @@ class ArticulatorController < ApplicationController
     @article.delete
     flash[:notice] = "The article was deleted."
     redirect_to root_path
+  end
+
+  def summarize
+    @articles = Article.find(params[:article_ids])
   end
 end

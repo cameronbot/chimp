@@ -1,24 +1,21 @@
 .container
-  .row
-    = link_to "Add publication", new_publication_path, class: "btn"
+  = link_to "Add publication", new_publication_path, class: "btn"
 
-    %hr
+  %hr
 
-    %table.table.table-hover
-      %thead
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Publication Name
+        %th Site
+        %th Actions
+    %tbody
+      - @publications.each do |p|
         %tr
-          %th Publication Name
-          %th Site
-          %th Actions
-      %tbody
-        - @publications.each do |p|
-          %tr
-            %td
-              =link_to p.formatted_name, edit_publication_path(p)
-            %td
-              =link_to p.domain, 'http://' + p.domain
-            %td
-              = link_to raw('<i class="icon-pencil"></i>'), edit_publication_path(p)
-              = link_to raw('<i class="icon-trash"></i>'), publication_path(p),
-                  method: :delete, confirm: "Are you sure you want to delete this?"
+          %td
+            =link_to p.formatted_name, edit_publication_path(p)
+          %td
+            =link_to p.domain, 'http://' + p.domain
+          %td
+            = link_to raw('<i class="icon-pencil"></i>'), edit_publication_path(p)
 

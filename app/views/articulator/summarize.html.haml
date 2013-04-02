@@ -1,0 +1,7 @@
+.container
+  %h2 Monkey Summary:
+  .well
+    - @articles.each do |a|
+      = render "formatted_summary", article: a
+      %br/
+

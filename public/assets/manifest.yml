@@ -1,10 +1,12 @@
 ---
+chimp_face.jpg: chimp_face-3cd17fa1d9a77e6b031a636776572f08.jpg
+chimp_face/index.jpg: chimp_face-3cd17fa1d9a77e6b031a636776572f08.jpg
 rails.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
 rails/index.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
-application.js: application-8ad64e09160e80fa7b9c3254ffedbf1c.js
-application/index.js: application-8ad64e09160e80fa7b9c3254ffedbf1c.js
-application.css: application-60cfe597074a0545eadaf7b3db7db107.css
-application/index.css: application-60cfe597074a0545eadaf7b3db7db107.css
+application.js: application-74d5fa9bb74992c70e2f028a52298371.js
+application/index.js: application-74d5fa9bb74992c70e2f028a52298371.js
+application.css: application-f4e2f8cf435bbadc4e6c9f2966575b61.css
+application/index.css: application-f4e2f8cf435bbadc4e6c9f2966575b61.css
 jquery.min.map: jquery.min-6c267bfd2b3f36e6edccb2e584934c1c.map
 jquery/index.min.map: jquery.min-6c267bfd2b3f36e6edccb2e584934c1c.map
 glyphicons-halflings-white.png: glyphicons-halflings-white-6cccd17a7aed91dbc0157d343c68c0d9.png
