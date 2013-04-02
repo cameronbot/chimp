@@ -1,8 +1,30 @@
-= link_to "Run an article through this monkey business", new_articulator_path, class: "btn btn-info"
+.container
+  .row
+    = link_to "Run an article through this monkey business", new_articulator_path, class: "btn btn-primary"
 
-%hr
+    %hr
 
-%ul
-  - @articles.each do |a|
-    %li
-      = link_to a.headline, articulator_path(a)
+    %table.table.table-hover
+      %thead
+        %tr
+          %th #
+          %th Headline
+          %th Publication
+          %th Created on
+          %th Actions
+      %tbody
+        - @articles.each do |a|
+          %tr
+            %td
+              = a.id
+            %td
+              = link_to a.headline, articulator_path(a)
+            %td
+              = a.publication.formatted_name
+            %td
+              = a.created_at
+            %td
+              = link_to raw('<i class="icon-pencil"></i>'), edit_articulator_path(a)
+              = link_to raw('<i class="icon-eye-open"></i>'), a.url
+              = link_to raw('<i class="icon-trash"></i>'), articulator_path(a),
+                  method: :delete, confirm: "Are you sure you want to delete this?"

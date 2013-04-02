@@ -1,38 +1,45 @@
-.span6
-  = form_for @article, url: { controller: "articulator", action: "update" } do |f|
-    = f.label :headline
-    = f.text_field :headline, class: "input-block-level"
-    = f.label :publication
-    = f.text_field :publication, value: @article.publication.formatted_name,
-        :"data-toggle" => "popover", :"data-placement" => "right",
-        :"data-trigger" => "focus", :"data-animation" => "true",
-        :"data-title" => "#{@article.publication.formatted_name}",
-        :"data-content" => "This is how the publication name for #{@article.publication.domain} is formatted."
-    = f.label :author
-    = f.text_field :author
-    = f.label :date
-    = f.text_field :date
-    = f.label :tag_list
-    = f.text_field :tag_list, :"data-provide" => "typeahead", :autocomplete => "off",
-        id: "article-tag-list"
-    = f.label :brief
-    = f.text_area :brief, rows: "6", class: "input-block-level"
-    = f.label :mention_list, "Staff mentions (comma separate names)"
-    = f.text_field :mention_list
-    %label
-    = f.submit "Update", class: "btn"
+.container
+  .row
+    .span6
+      = form_for @article, url: { controller: "articulator", action: "update" } do |f|
+        = f.label :headline
+        = f.text_field :headline, class: "input-block-level"
+        = f.label :publication
+        = f.text_field :publication, value: @article.publication.formatted_name,
+            placeholder: @article.publication.domain,
+            :"data-toggle" => "popover", :"data-placement" => "right",
+            :"data-trigger" => "focus", :"data-animation" => "true",
+            :"data-title" => "#{@article.publication.formatted_name}",
+            :"data-content" => "This is how the publication name for #{@article.publication.domain} is formatted."
+        = f.label :author
+        = f.text_field :author
+        = f.label :date
+        = f.text_field :date,
+          :"data-toggle" => "popover", :"data-placement" => "right",
+            :"data-trigger" => "focus", :"data-animation" => "true",
+            :"data-title" => "Article date",
+            :"data-content" => "YYYY-MM-DD format, please."
+        = f.label :tag_list
+        = f.text_field :tag_list, :"data-provide" => "typeahead", :autocomplete => "off",
+            id: "article-tag-list", class: "span6"
+        = f.label :brief
+        = f.text_area :brief, rows: "6", class: "input-block-level"
+        = f.label :mention_list, "Staff mentions (comma separate names)"
+        = f.text_field :mention_list
+        %label
+        = f.submit "Update", class: "btn"
 
-  .well.well-large
-    .headline
-      = link_to @article.headline, @article.url
-    .brief
-      %span.date
-        = @article.date
-        \--
-      %span.brief
-    .meta
-      %span.pub
-        = @article.publication.formatted_name
-      %span.author
-        = @article.author
-/%iframe#iframe.pull-right{ src: "#{@article.url}", width: "760px", height: "1000px" }
+      .well.well-large
+        .headline
+          = link_to @article.headline, @article.url
+        .brief
+          %span.date
+            = @article.date
+            \--
+          %span.brief
+        .meta
+          %span.pub
+            = @article.publication.formatted_name
+          %span.author
+            = @article.author
+    /%iframe#iframe.pull-right{ src: "#{@article.url}", width: "760px", height: "1000px" }

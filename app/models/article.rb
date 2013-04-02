@@ -19,7 +19,7 @@ class Article < ActiveRecord::Base
   private
 
   def find_headline(doc)
-    selectors = [".entry-title", ".title", "h1"]
+    selectors = [".entry-title", ".title", ".content h1", "#content h1", "h1"]
 
     search_through(doc, selectors).titleize
   end
@@ -39,7 +39,9 @@ class Article < ActiveRecord::Base
   end
 
   def find_date(doc)
-    date = doc.at_css('.published')["title"]
+    selectors = [".published", ".articleDate"]
+
+    date = search_through(doc, selectors)
 
     if date
       date
@@ -68,5 +70,7 @@ class Article < ActiveRecord::Base
         return data.content
       end
     end
+
+    ""
   end
 end

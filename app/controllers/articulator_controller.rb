@@ -1,6 +1,6 @@
 class ArticulatorController < ApplicationController
   def index
-    @articles = Article.all(select: "id, headline, url")
+    @articles = Article.all(select: "id, headline, url, created_at, publication_id", include: [ :publication ])
   end
 
   def new
@@ -21,7 +21,6 @@ class ArticulatorController < ApplicationController
 
   def show
     @article = Article.find(params[:id], include: [ :publication ])
-    #@publication = Publication.find(@article.publication)
   end
 
   def update
@@ -40,5 +39,13 @@ class ArticulatorController < ApplicationController
       flash[:alert] = "The monkeys had some problems..."
       render :show
     end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+
+    @article.delete
+    flash[:notice] = "The article was deleted."
+    redirect_to root_path
   end
 end
