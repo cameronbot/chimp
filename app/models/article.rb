@@ -1,7 +1,9 @@
 require 'open-uri'
 
 class Article < ActiveRecord::Base
-  attr_accessible :author, :brief, :date, :headline, :mentions, :pub, :tags, :url
+  attr_accessible :author, :brief, :date, :headline, :mentions, :publication, :url, :tag_list, :mention_list
+  belongs_to :publication
+  acts_as_taggable_on :tags, :mentions
 
   def monkey_work!
     doc = Nokogiri::HTML(open(self.url))
@@ -9,7 +11,7 @@ class Article < ActiveRecord::Base
     self.headline = find_headline(doc)
     self.author = find_author(doc)
     self.date = find_date(doc)
-    self.pub = find_pub(self.url)
+    self.publication = find_pub(self.url)
 
     self.save!
   end
@@ -17,7 +19,7 @@ class Article < ActiveRecord::Base
   private
 
   def find_headline(doc)
-    selectors = ["h1"]
+    selectors = [".entry-title", ".title", "h1"]
 
     search_through(doc, selectors).titleize
   end
@@ -25,7 +27,15 @@ class Article < ActiveRecord::Base
   def find_author(doc)
     selectors = [".byline", ".author", ".vcard"]
 
-    search_through(doc, selectors)
+    # these downcased noisy words will be removed from our matched string
+    noise = ["posted", "by:", "by"]
+
+    author = search_through(doc, selectors)
+    author = author.split(" ")
+    downcase = author.map(&:downcase)
+
+    author.delete_if { |x| noise.include? x.downcase }
+    author.join(" ")
   end
 
   def find_date(doc)
@@ -39,7 +49,9 @@ class Article < ActiveRecord::Base
   end
 
   def find_pub(url)
-    get_host_without_www(url)
+    domain = get_host_without_www(url)
+
+    Publication.find_or_create_by_domain(domain)
   end
 
   def get_host_without_www(url)

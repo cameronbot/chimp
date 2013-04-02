@@ -14,3 +14,46 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+
+$(document).ready(function () {
+  $("[data-toggle=popover]").popover();
+  $('#article-tag-list').typeahead({
+    source: function (query, process) {
+      var index = query.lastIndexOf(','),
+          temp = query;
+      temp = (index > 1) ? temp.substring(index+1).trim() : query;
+      query = (temp.length > 0) ? temp : query;
+      return $.get('/tags?context=tags', { query: query }, function (data) {
+          return process(data);
+      });
+    },
+    matcher: function(item) {
+      var index = this.query.lastIndexOf(','),
+          temp = this.query,
+          this_query = this.query;
+
+      this.stash = temp.substring(0, index);
+
+      temp = (index > 1) ? temp.substring(index+1).trim() : this_query;
+      this_query = (temp.length > 0) ? temp : this_query;
+
+      console.log(item, this_query);
+
+      return ~item.toLowerCase().indexOf(this_query.toLowerCase())
+    },
+    updater: function(item) {
+      if(this.stash && this.stash.length > 0) {
+        this.stash += ", ";
+      }
+      this.stash += item;
+      return this.stash;
+    }
+  });
+});
+
+
+if (typeof String.prototype.trim != 'function') { // detect native implementation
+  String.prototype.trim = function () {
+    return this.replace(/^\s+/, '').replace(/\s+$/, '');
+  };
+}

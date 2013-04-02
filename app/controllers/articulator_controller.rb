@@ -20,11 +20,18 @@ class ArticulatorController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
+    @article = Article.find(params[:id], include: [ :publication ])
+    #@publication = Publication.find(@article.publication)
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = Article.find(params[:id], include: [ :publication ])
+
+    if @article.publication.formatted_name != params[:article][:publication]
+      @article.publication.update_attributes({ formatted_name: params[:article][:publication] })
+    end
+
+    params[:article].delete(:publication)
 
     if @article.update_attributes(params[:article])
       flash[:notice] = "The monkeys saved your changes..."

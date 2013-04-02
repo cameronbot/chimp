@@ -2,6 +2,10 @@ Chimp::Application.routes.draw do
   root :to => "articulator#index"
 
   resources :articulator
+
+  resources :publications
+
+  get "/tags" => "application#tags"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

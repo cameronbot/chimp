@@ -1,0 +1,7 @@
+= form_for @publication do |f|
+  = f.label :domain
+  = f.text_field :domain, placeholder: "http://www.sacbee.com", class: "span6"
+  = f.label :formatted_name
+  = f.text_field :formatted_name, placeholder: "sac.bee", class: "span6"
+  %label
+  = f.submit "Save", class: "btn"
