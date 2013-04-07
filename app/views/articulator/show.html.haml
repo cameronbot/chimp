@@ -1,34 +1,57 @@
 .container
-  .pull-right
-    %a#open-iframe.btn{ href: "", :"data-url" => @article.url } Show Article
-  #article-form.span6
+  #article-form.span5
+    %small.pull-right Drag me!
+
+    %p
+      %strong Article Summary
+      - if @article.matches && @article.matches.length > 0
+        %span.references
+          - @article.matches.each do |k,v|
+            %span.badge.badge-info{ style: "display:none;"} #{k} ×#{v}
+
     = form_for @article, url: { controller: "articulator", action: "update" } do |f|
       = f.label :headline
-      = f.text_field :headline, class: "input-block-level"
+      %div.auto-format-container
+        = f.text_field :headline, class: "span5"
+        %button.auto-format.btn.btn-small.btn-warning.pull-right{ :"data-target" => "#article_headline",
+          style: "display:none;" }
+          großschreiben
+
       = f.label :publication
       = f.text_field :publication, value: @article.publication.formatted_name,
           placeholder: @article.publication.domain,
-          :"data-toggle" => "popover", :"data-placement" => "right",
+          :"data-toggle" => "popover", :"data-placement" => "left",
           :"data-trigger" => "focus", :"data-animation" => "true",
           :"data-title" => "#{@article.publication.formatted_name}",
           :"data-content" => "This is how the publication name for #{@article.publication.domain} is formatted."
+
       = f.label :author
-      = f.text_field :author
+      = f.text_field :author, class: "span5"
+
       = f.label :date
-      = f.text_field :date,
-        :"data-toggle" => "popover", :"data-placement" => "right",
+      = f.text_field :date, value: "#{l @article.date unless @article.date.nil?}",
+        :"data-toggle" => "popover", :"data-placement" => "left",
           :"data-trigger" => "focus", :"data-animation" => "true",
           :"data-title" => "Article date",
-          :"data-content" => "YYYY-MM-DD format, please."
+          :"data-content" => "mm/dd/yy format",
+          class: "span5"
+
       = f.label :tag_list
       = f.text_field :tag_list, :"data-provide" => "typeahead", :autocomplete => "off",
-          id: "article-tag-list", class: "span6"
+          id: "article-tag-list", class: "span5"
+
       = f.label :brief
       = f.text_area :brief, rows: "6", class: "input-block-level"
+
       = f.label :mentions, "Staff mentions"
-      = f.text_field :mentions, placeholder: "harmeet dhillon aclu.nc.mention"
+      = f.text_field :mentions, placeholder: "harmeet dhillon aclu.nc.mention",
+        class: "span5"
+
       %label
       = f.submit "Update", class: "btn"
+      %a.btn.btn-link= link_to "Back to Main", root_path
 
     .well.well-large
       = render "formatted_summary", article: @article
+
+%iframe#article-iframe{ src: "#{@article.url}" }

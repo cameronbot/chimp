@@ -1,36 +1,50 @@
-.container
-  .hero-unit
-    %h1 Chimp.
-    %p.lead Let the experts do your monkey work.
-    %p
-      = link_to "Submit a url", new_articulator_path, class: "btn btn-primary btn-large"
+#wrapper.container
+  = form_for Report.new do |f|
+    .controls
+      = f.submit "Build Report", class: "btn", id: "build-report"
+      .pull-right
+        .btn-group
+          %a.btn{ href: "#"} View
+          %a.btn.dropdown-toggle{ :"data-toggle" => "dropdown", href: "#" }
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              %a{ href: "?limit=today"} Today
+            %li
+              %a{ href: "?limit=yesterday" } Yesterday
+            %li
+              %a{ href: "?limit=week" } Past Week
+            %li.divider
+            %li
+              %a{ href: "?limit=unreported" } Unreported
+            %li
+              %a{ href: "?" } All Articles
 
-  %hr
-
-  - if @articles.length > 0
-    = form_tag summarize_articulator_path, :method => :post do
-      = submit_tag "Build summary from selected", class: "btn"
-      %table#articles.table.table-hover
-        %thead
+    %table#articles.table.table-hover
+      %thead
+        %tr
+          %th
+            %input#select-all{ type: "checkbox" }
+          %th Headline
+          %th Publication
+          %th Parsed
+          %th Actions
+      %tbody
+        - @articles.each do |a|
           %tr
-            %th
-            %th Headline
-            %th Publication
-            %th Created on
-            %th Actions
-        %tbody
-          - @articles.each do |a|
-            %tr
-              %td
-                = check_box_tag "article_ids[]", a.id
-              %td
-                = link_to a.headline, articulator_path(a)
-              %td
-                = a.publication.formatted_name
-              %td
-                = a.created_at
-              %td
-                = link_to raw('<i class="icon-pencil"></i>'), edit_articulator_path(a)
-                = link_to raw('<i class="icon-eye-open"></i>'), a.url
-                = link_to raw('<i class="icon-trash"></i>'), articulator_path(a),
-                    method: :delete, confirm: "Are you sure you want to delete this?"
+            %td
+              = check_box_tag "article_ids[]", a.id
+            %td
+              = link_to a.headline, articulator_path(a)
+              - if a.report
+                = link_to raw('<i class="icon-list"></i>'), report_path(a.report.id),
+                  title: "View the Report this article belongs to", class: "pull-right"
+            %td
+              = a.publication.formatted_name
+            %td
+              = l a.created_at
+            %td
+              = link_to raw('<i class="icon-pencil"></i>'), articulator_path(a)
+              = link_to raw('<i class="icon-eye-open"></i>'), a.url
+              = link_to raw('<i class="icon-trash"></i>'), articulator_path(a),
+                  method: :delete, confirm: "Are you sure you want to delete this?"

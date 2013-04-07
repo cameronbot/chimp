@@ -1,0 +1,18 @@
+.container
+
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Report Date
+        %th # of Articles
+        %th Actions
+    %tbody
+      - @reports.each do |r|
+        %tr
+          %td
+            =link_to "#{l r.created_at}", report_path(r)
+          %td
+            = r.article.length
+          %td
+            /= link_to raw('<i class="icon-pencil"></i>'), report_path(r)
+

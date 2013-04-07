@@ -1,5 +1,3 @@
-= form_for @article, url: articulator_index_url do |f|
-  = f.label :url, "URL"
-  = f.text_field :url, placeholder: "http://", class: "span6"
-  %label
-  = f.submit "Do It", class: "btn"
+= form_for Article.new, url: articulator_index_url, html: { class: "form-horizontal" } do |f|
+  = f.text_field :url, placeholder: "http://", class: "span5"
+  = f.submit "Go", class: "btn btn-primary"

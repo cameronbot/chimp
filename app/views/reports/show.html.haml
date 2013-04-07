@@ -1,0 +1,8 @@
+.container
+  %h2 Monkey Summary:
+  #report.well{ :"data-sort-update-url" => "#{sort_reports_url}" }
+    - @articles.each do |a|
+      = content_tag_for :div, a do
+        = render "articulator/formatted_summary", article: a
+
+

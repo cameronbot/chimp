@@ -12,4 +12,7 @@
  *= require_tree .
  */
 @import "bootstrap";
-body { padding-top: 20px; }
+html { height: 100%; }
+body { background: image_url("polaroid.png"); height: 100%; }
+.page { padding-top: 20px; }
+#wrapper { background: rgba(255,255,255,0.5); border: 1px solid #e5e5e5; border-radius: 6px; }

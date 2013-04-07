@@ -17,16 +17,61 @@
 //= require_tree .
 
 $(document).ready(function () {
-  $('#articles').on("click", "tr", function(e) {
-    $(this).find('[type=checkbox]').prop("checked", "true");
-  });
+  $('#articles')
+    .on("click", "tbody tr", function(e) {
+      $(this).find('input[type=checkbox]').each(function() {
+        if($(this).is(":checked")) {
+          $(this).prop("checked", false);
+        } else {
+          $(this).prop("checked", true);
+        }
+      });
+    })
+    .on("click", "input[type=checkbox]", function(e) {
+      e.stopPropagation();
+    })
+    .on("click", "a", function(e) {
+      e.stopPropagation();
+    })
+    .on("mouseup", "#select-all", function(e) {
+      var checked = $(this).is(':checked') ? false : true;
+
+      $("#articles tbody").find('input[type=checkbox]').prop("checked", checked);
+    });
 
   $('#open-iframe').on('click', function(e) {
     e.preventDefault();
-    console.log('test');
+
     $('body').append('<iframe id="article-iframe" src="' + $(this).data('url') + '"></iframe>');
     $('#article-form').toggleClass('article-form').draggable();
   });
+
+  $('#article-form').toggleClass('article-form').draggable();
+
+  $('#article-form')
+    .on('focus', 'input', function(e) {
+
+      var $this = $(this);
+
+      $('.auto-format', '#article-form').hide();
+      if($this.siblings('.auto-format').length) {
+        $this.css('display','block').next('.auto-format').show();
+      }
+
+    })
+    .on('blur', 'input', function(e) {
+      $(this).css('display','');
+    })
+    .on('click', '.auto-format', function(e) {
+      e.preventDefault();
+      var target = $(this).data('target'),
+          value = $(target).val();
+
+      $(target).val(value.toSentenceCase()).trigger('focus');
+    })
+    .find('.references span').each(function(index) {
+      $(this).delay((index+1) * 400).fadeIn();
+    });
 
   $("[data-toggle=popover]").popover();
   $('#article-tag-list').typeahead({
@@ -64,8 +109,14 @@ $(document).ready(function () {
 });
 
 
-if (typeof String.prototype.trim != 'function') { // detect native implementation
+if (typeof String.prototype.trim != 'function') {
   String.prototype.trim = function () {
     return this.replace(/^\s+/, '').replace(/\s+$/, '');
+  };
+}
+
+if (typeof String.prototype.toSentenceCase != 'function') {
+  String.prototype.toSentenceCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   };
 }

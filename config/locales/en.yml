@@ -3,3 +3,9 @@
 
 en:
   hello: "Hello world"
+  date:
+    formats:
+      default: "%m/%d/%y"
+  time:
+    formats:
+      default: "%m/%d/%y"

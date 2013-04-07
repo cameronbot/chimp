@@ -2,7 +2,9 @@ require 'open-uri'
 
 class Article < ActiveRecord::Base
   attr_accessible :author, :brief, :date, :headline, :mentions, :publication, :url, :tag_list, :mentions
+  attr_accessible :matches, :report
   belongs_to :publication
+  belongs_to :report
   acts_as_taggable_on :tags
 
   def monkey_work!
@@ -14,6 +16,9 @@ class Article < ActiveRecord::Base
     self.date = find_date(doc)
     self.publication = find_pub(self.url)
     self.url = find_canonical(doc)
+
+    words = ["ACLU", "American Civil Liberties"]
+    self.matches = find_keywords(doc, words)
 
     self.save!
   end
@@ -46,7 +51,7 @@ class Article < ActiveRecord::Base
   end
 
   def find_date(doc)
-    selectors = [".published", ".articleDate"]
+    selectors = [".published", ".date", ".articleDate"]
 
     date = search_through(doc, selectors)
 
@@ -71,6 +76,23 @@ class Article < ActiveRecord::Base
     else
       self.url
     end
+  end
+
+  def find_keywords(doc, keywords)
+    paragraphs = doc.css('p')
+
+    hash = Hash.new
+    paragraphs.each do |p|
+      puts p.content
+      keywords.each do |k|
+        if p.content.include? k
+          hash[k] = hash[k].to_i + 1
+        end
+      end
+    end
+
+    puts hash
+    hash.to_json
   end
 
   def get_host_without_www(url)

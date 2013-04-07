@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402013957) do
+ActiveRecord::Schema.define(:version => 20130406234818) do
 
   create_table "articles", :force => true do |t|
     t.string   "url"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(:version => 20130402013957) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "publication_id"
+    t.text     "matches"
+    t.integer  "report_id"
+    t.integer  "position"
   end
 
   create_table "publications", :force => true do |t|
@@ -34,6 +37,12 @@ ActiveRecord::Schema.define(:version => 20130402013957) do
   end
 
   add_index "publications", ["domain"], :name => "index_publications_on_domain"
+
+  create_table "reports", :force => true do |t|
+    t.string   "article_ids"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

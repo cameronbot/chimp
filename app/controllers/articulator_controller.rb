@@ -1,6 +1,25 @@
 class ArticulatorController < ApplicationController
   def index
-    @articles = Article.all(select: "id, headline, url, created_at, publication_id", include: [ :publication ])
+
+    conditions = {}
+    if params[:limit]
+      case params[:limit].downcase
+      when "today"
+        conditions = { :updated_at => Date.today...Date.today+2 }
+      when "yesterday"
+        conditions = { :updated_at => Date.today-1...Date.today }
+      when "week"
+        conditions = { :updated_at => Date.today-7...Date.today+1 }
+      when "unreported"
+        conditions = { :report_id => nil }
+      else
+        conditions = {}
+      end
+    end
+
+    @articles = Article.all(select: "id, headline, url, created_at, publication_id, report_id",
+      include: [ :publication ],
+      conditions: conditions)
   end
 
   def new
@@ -21,6 +40,7 @@ class ArticulatorController < ApplicationController
 
   def show
     @article = Article.find(params[:id], include: [ :publication ])
+    @article.matches = JSON.parse(@article.matches);
   end
 
   def update
@@ -31,6 +51,7 @@ class ArticulatorController < ApplicationController
     end
 
     params[:article].delete(:publication)
+    params[:article][:date] = Date.strptime(params[:article][:date], "%m/%d/%y")
 
     if @article.update_attributes(params[:article])
       flash[:notice] = "The monkeys saved your changes..."
