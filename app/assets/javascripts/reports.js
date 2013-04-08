@@ -1,13 +1,24 @@
 $(document).ready(function() {
   renderTags();
 
-  $('#report').sortable({
-    axis: 'y',
-    update: function() {
-      $.post($(this).data('sort-update-url'), $(this).sortable('serialize'));
-      renderTags();
-    }
-  })
+  $('#report')
+    .sortable({
+      axis: 'y',
+      update: function() {
+        $.post($(this).data('sort-update-url'), $(this).sortable('serialize'));
+        renderTags();
+      }
+    })
+    .on("mousedown", ".article", function(e) {
+      $(this).css({
+        'box-shadow': '4px 4px 4px #a5a5a5',
+        'background': '#fff'
+      });
+    })
+    .on("mouseup", ".article", function(e) {
+      $(this).css({ 'box-shadow': '', 'background': '' });
+    })
+
 });
 
 function renderTags() {

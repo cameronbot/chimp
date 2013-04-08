@@ -1,5 +1,9 @@
 .container
-  %h2 Monkey Summary:
+  %h4
+    Report created at
+    = l @report.created_at
+  %p
+    Drag and drop each summary below to re-order. If consecutive articles have identical tags, only the first article will display the tags.
   #report.well{ :"data-sort-update-url" => "#{sort_reports_url}" }
     - @articles.each do |a|
       = content_tag_for :div, a do

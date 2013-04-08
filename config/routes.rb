@@ -2,7 +2,6 @@ Chimp::Application.routes.draw do
   root :to => "articulator#index"
 
   resources :articulator
-  post "/articulator/summarize" => "articulator#summarize", as: "summarize_articulator"
 
   resources :publications
 

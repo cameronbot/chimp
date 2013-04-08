@@ -83,7 +83,6 @@ class Article < ActiveRecord::Base
 
     hash = Hash.new
     paragraphs.each do |p|
-      puts p.content
       keywords.each do |k|
         if p.content.include? k
           hash[k] = hash[k].to_i + 1
@@ -91,7 +90,6 @@ class Article < ActiveRecord::Base
       end
     end
 
-    puts hash
     hash.to_json
   end
 
@@ -116,7 +114,7 @@ class Article < ActiveRecord::Base
   def check_for_meta_redirect(doc)
     meta_refresh_tag = doc.at('meta[http-equiv="refresh"]')
 
-    if meta_refresh_tag
+    if meta_refresh_tag && (not meta_refresh_tag.path().include? "noscript")
       redirect_url = meta_refresh_tag['content'][/url=(.+)/, 1]
       self.url = redirect_url
 

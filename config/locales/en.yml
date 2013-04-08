@@ -8,4 +8,4 @@ en:
       default: "%m/%d/%y"
   time:
     formats:
-      default: "%m/%d/%y"
+      default: "%m/%d/%y %H:%M"

@@ -54,4 +54,4 @@
     .well.well-large
       = render "formatted_summary", article: @article
 
-%iframe#article-iframe{ src: "#{@article.url}" }
+%iframe#article-iframe{ src: "#{@article.url}", sandbox: "allow-forms allow-scripts" }

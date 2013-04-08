@@ -2,7 +2,7 @@
 %head
   %title Chimp.
   = stylesheet_link_tag "application", :media => "all"
-  = javascript_include_tag "application"
+  = javascript_include_tag :application
   = csrf_meta_tags
   %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
 
@@ -27,8 +27,23 @@
 
     = bootstrap_flash
 
-    - if current_page? root_url
+    - if current_page?(root_url) || (params[:controller] == "articulator" && params[:action] == "index")
       = render "articulator/hero"
 
 
     = yield
+
+    - unless params[:controller] == 'articulator' && params[:action] == 'show'
+      %hr
+      .footer
+        %ul.inline
+          %li.pull-right.text-right
+            %small
+              Built by
+              = link_to "cameronbot", "http://github.com/cameronbot"
+            %br
+            %small
+              Inspired by
+              = link_to "danielhgalindo", "http://www.danielhgalindo.com"
+
+          %li About Chimp
