@@ -53,7 +53,10 @@ class ArticulatorController < ApplicationController
     end
 
     params[:article].delete(:publication)
-    params[:article][:date] = Date.strptime(params[:article][:date], "%m/%d/%y")
+
+    if params[:article][:date].present?
+      params[:article][:date] = Date.strptime(params[:article][:date], "%m/%d/%y")
+    end
 
     if @article.update_attributes(params[:article])
       flash[:notice] = "The monkeys saved your changes..."
