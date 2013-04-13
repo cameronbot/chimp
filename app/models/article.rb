@@ -2,7 +2,7 @@ require 'open-uri'
 
 class Article < ActiveRecord::Base
   attr_accessible :author, :brief, :date, :headline, :mentions, :publication, :url, :tag_list, :mentions
-  attr_accessible :matches, :report
+  attr_accessible :matches, :report_id, :position
   belongs_to :publication
   belongs_to :report
   acts_as_taggable_on :tags

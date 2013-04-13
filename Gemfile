@@ -12,6 +12,9 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'seed_dump'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'vcr'
 end
 
 # Gems used only for assets and not required

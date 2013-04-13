@@ -54,4 +54,9 @@
     .well.well-large
       = render "formatted_summary", article: @article
 
-%iframe#article-iframe{ src: "#{@article.url}", sandbox: "allow-forms allow-scripts" }
+/%iframe#article-iframe{ src: "#{@article.url}", sandbox: "allow-forms allow-scripts" }
+
+:javascript
+  $(document).ready(function() {
+    $('body').append('<iframe id="article-iframe" src="#{@article.url}" sandbox="allow-forms allow-scripts">');
+  });

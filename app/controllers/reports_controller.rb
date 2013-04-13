@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
   def create
     @report = Report.create
     params[:article_ids].each_with_index do |id, index|
-      Article.update_all({ report_id: @report.id, position: index+1 })
+      Article.find(id).update_attributes({ report_id: @report.id, position: index+1 })
     end
     redirect_to report_path @report
   end
@@ -24,7 +24,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.find(params[:id], include: [:article])
+    @report = Report.find(params[:id])
     @articles = @report.article.order(:position)
   end
 

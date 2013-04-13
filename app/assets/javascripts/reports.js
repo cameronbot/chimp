@@ -3,20 +3,26 @@ $(document).ready(function() {
 
   $('#report')
     .sortable({
+      handle: '.handle',
       axis: 'y',
       update: function() {
         $.post($(this).data('sort-update-url'), $(this).sortable('serialize'));
         renderTags();
       }
     })
-    .on("mousedown", ".article", function(e) {
-      $(this).css({
+    .on("mousedown", ".handle", function(e) {
+      $(this).parent().css({
+        'border': '1px dotted #666',
         'box-shadow': '4px 4px 4px #a5a5a5',
         'background': '#fff'
       });
     })
-    .on("mouseup", ".article", function(e) {
-      $(this).css({ 'box-shadow': '', 'background': '' });
+    .on("mouseup", ".handle", function(e) {
+      $(this).parent().css({
+        'border': '1px solid transparent',
+        'box-shadow': '',
+        'background': ''
+      });
     })
 
 });

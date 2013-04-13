@@ -13,7 +13,7 @@ class ArticulatorController < ApplicationController
       when "unreported"
         conditions = { :report_id => nil }
       else
-        conditions = {}
+        conditions = { :updated_at => Date.today...Date.today+2 }
       end
     end
 
@@ -30,10 +30,10 @@ class ArticulatorController < ApplicationController
     @article = Article.new(params[:article])
 
     if @article.monkey_work!
-      flash[:notice] = "The monkeys did some good work for you..."
+      flash[:notice] = I18n.t 'parse_article.flash.success'
       redirect_to articulator_path(@article)
     else
-      flash[:alert] = "The monkeys had some problems..."
+      flash[:alert] = I18n.t 'parse_article.flash.error'
       render :new
     end
   end

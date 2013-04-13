@@ -7,6 +7,8 @@
   #report.well{ :"data-sort-update-url" => "#{sort_reports_url}" }
     - @articles.each do |a|
       = content_tag_for :div, a do
+        .handle
+          %i.icon.icon-resize-vertical
         = render "articulator/formatted_summary", article: a
 
 

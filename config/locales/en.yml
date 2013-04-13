@@ -3,6 +3,12 @@
 
 en:
   hello: "Hello world"
+  parse_article:
+    flash:
+      success: "The monkeys did their best..."
+      error: "Uh-oh. The monkeys had some problems figuring this one out..."
+    entry_form:
+      format_headline: "großschreiben"
   date:
     formats:
       default: "%m/%d/%y"
