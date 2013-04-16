@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
     context = params[:context] || "tags"
 
     if params[:query].present?
-      where_clause = "CAST(taggings.context AS varchar) like \"%#{context}%\" and name like \"%#{params[:query]}%\""
+      where_clause = "CAST(taggings.context AS varchar) like \"#{context}\" and name like \"%#{params[:query]}%\""
     else
-      where_clause = "CAST(taggings.context AS varchar) like \"%#{context}%\""
+      where_clause = "CAST(taggings.context AS varchar) like \"#{context}\""
     end
 
     @tags = ActsAsTaggableOn::Tag.includes(:taggings).
