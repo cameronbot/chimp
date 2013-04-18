@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     context = params[:context] || "tags"
 
     if params[:query].present?
-      @tags = Article.tag_counts_on(context).where("name like \'%#{params[:query]}%\'")
+      @tags = Article.tag_counts_on(context).where("name ilike \'%#{params[:query]}%\'")
     else
       @tags = Article.tag_counts_on(context)
     end
