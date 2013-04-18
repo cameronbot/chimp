@@ -5,19 +5,12 @@ class ApplicationController < ActionController::Base
     context = params[:context] || "tags"
 
     if params[:query].present?
-      where_clause = "\"taggings\".context like \"%#{context.to_s}%\" and name like \"%#{params[:query]}%\""
+      @tags = Article.tag_counts_on(context).where("name like \'%#{params[:query]}%\'")
     else
-      where_clause = "\"taggings\".context like \"%#{context.to_s}%\""
+      @tags = Article.tag_counts_on(context)
     end
 
-    @tags = ActsAsTaggableOn::Tag.includes(:taggings).
-      where(where_clause)
-
     @tags.map! { |t| t.name }
-
-    # if params[:query].present?
-    #   @tags = @tags.find_all{ |t| t =~ /#{params[:query]}/ }
-    # end
 
     render :json => @tags
   end
