@@ -40,6 +40,11 @@ class ArticulatorController < ApplicationController
 
   def show
     @article = Article.find(params[:id], include: [ :publication ])
+
+    unless @article.tag_list.nil?
+      @article.tag_list.sort!
+    end
+
     unless @article.matches.nil?
       @article.matches = JSON.parse(@article.matches);
     end
